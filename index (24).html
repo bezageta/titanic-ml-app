@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Titanic Survival Predictor</title>
+</head>
+<body>
+    <h2>Titanic Survival Predictor</h2>
+    
+    <label>Pclass:</label>
+    <input type="number" id="pclass" value="3"><br>
+
+    <label>Age:</label>
+    <input type="number" id="age" value="30"><br>
+
+    <label>Siblings/Spouses Aboard:</label>
+    <input type="number" id="sibsp" value="0"><br>
+
+    <label>Parents/Children Aboard:</label>
+    <input type="number" id="parch" value="0"><br>
+
+    <label>Fare:</label>
+    <input type="number" id="fare" value="50"><br>
+
+    <label>Sex Male (1=Male, 0=Female):</label>
+    <input type="number" id="sex_male" value="1"><br>
+
+    <label>Embarked Q (1=Yes, 0=No):</label>
+    <input type="number" id="embarked_Q" value="0"><br>
+
+    <label>Embarked S (1=Yes, 0=No):</label>
+    <input type="number" id="embarked_S" value="1"><br>
+
+    <button onclick="predict()">Predict</button>
+
+    <h3>Prediction:</h3>
+    <div id="result"></div>
+
+    <script>
+        async function predict() {
+            const response = await fetch('https://YOUR-API-URL/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pclass: parseInt(document.getElementById('pclass').value),
+                    age: parseFloat(document.getElementById('age').value),
+                    sibsp: parseInt(document.getElementById('sibsp').value),
+                    parch: parseInt(document.getElementById('parch').value),
+                    fare: parseFloat(document.getElementById('fare').value),
+                    sex_male: parseInt(document.getElementById('sex_male').value),
+                    embarked_Q: parseInt(document.getElementById('embarked_Q').value),
+                    embarked_S: parseInt(document.getElementById('embarked_S').value)
+                })
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>
